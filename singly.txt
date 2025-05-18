@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for singly linked list node
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Function to insert a node at the end
+void insertAtEnd(struct Node** head, int new_data) {
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* last = *head;
+
+    new_node->data = new_data;
+    new_node->next = NULL;
+
+    // If the linked list is empty, make the new node the head
+    if (*head == NULL) {
+        *head = new_node;
+        return;
+    }
+
+    // Otherwise, traverse to the last node
+    while (last->next != NULL) {
+        last = last->next;
+    }
+
+    // Change the next of the last node to the new node
+    last->next = new_node;
+}
+
+// Function to print the linked list
+void printList(struct Node* node) {
+    while (node != NULL) {
+        printf("%d -> ", node->data);
+        node = node->next;
+    }
+    printf("NULL\n");
+}
+
+// Main function for Singly Linked List
+int main() {
+    struct Node* head = NULL;
+
+    insertAtEnd(&head, 10);
+    insertAtEnd(&head, 20);
+    insertAtEnd(&head, 30);
+    
+    printf("Singly Linked List: ");
+    printList(head);
+
+    return 0;
+}
+

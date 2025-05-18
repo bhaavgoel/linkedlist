@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for doubly linked list node
+struct Node {
+    int data;
+    struct Node* next;
+    struct Node* prev;
+};
+
+// Function to insert a node at the beginning
+void insertAtBegin(struct Node** head, int new_data) {
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    
+    new_node->data = new_data;
+    new_node->next = *head;
+    new_node->prev = NULL;
+
+    // If the list is not empty, update the previous pointer of the old head
+    if (*head != NULL) {
+        (*head)->prev = new_node;
+    }
+
+    *head = new_node;
+}
+
+// Function to insert a node at the end
+void insertAtEnd(struct Node** head, int new_data) {
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* last = *head;
+    
+    new_node->data = new_data;
+    new_node->next = NULL;
+
+    if (*head == NULL) {
+        new_node->prev = NULL;
+        *head = new_node;
+        return;
+    }
+
+    // Traverse to the last node
+    while (last->next != NULL) {
+        last = last->next;
+    }
+
+    // Change the next of the last node and previous of the new node
+    last->next = new_node;
+    new_node->prev = last;
+}
+
+// Function to print the list from forward direction
+void printForward(struct Node* node) {
+    while (node != NULL) {
+        printf("%d <-> ", node->data);
+        node = node->next;
+    }
+    printf("NULL\n");
+}
+
+// Function to print the list from backward direction
+void printBackward(struct Node* node) {
+    if (node == NULL) return;
+
+    // Traverse to the last node
+    while (node->next != NULL) {
+        node = node->next;
+    }
+
+    // Print the list in reverse order
+    while (node != NULL) {
+        printf("%d <-> ", node->data);
+        node = node->prev;
+    }
+    printf("NULL\n");
+}
+
+// Main function for Doubly Linked List
+int main() {
+    struct Node* head = NULL;
+
+    insertAtBegin(&head, 10);
+    insertAtEnd(&head, 20);
+    insertAtEnd(&head, 30);
+    insertAtBegin(&head, 5);
+
+    printf("Doubly Linked List (Forward): ");
+    printForward(head);
+    
+    printf("Doubly Linked List (Backward): ");
+    printBackward(head);
+
+    return 0;
+}
+
